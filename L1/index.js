@@ -41,7 +41,7 @@ console.log(create(Boolean));
 const getPromise = function(number) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, 100, number);
-      })
+      });
 }
 
 const promiseReduce = async (mass, fun, acc) => {
