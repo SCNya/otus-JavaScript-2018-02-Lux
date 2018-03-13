@@ -1,26 +1,26 @@
 const fs = require('fs');
 
-const promisify = function(originalFunction) {
+const promisify = function (originalFunction) {
 
-    const doPromisify = function() {
+    const doPromisify = function () {
 
-    return new Promise((resolve, reject) => {
-        const callback = (err, data) => {
-            if (err || data === undefined) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
+        return new Promise((resolve, reject) => {
+            const callback = (err, data) => {
+                if (err || data === undefined) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
             };
 
             const args = Array.from(arguments);
             args.push(callback);
-            
+
             originalFunction.apply(null, args);
-      });
+        });
     };
 
-    return function() {return doPromisify.apply(null, arguments);};
+    return function () { return doPromisify.apply(null, arguments); };
 };
 
 const pFsReadFile = promisify(fs.readFile);
