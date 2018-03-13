@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const promisify = function (originalFunction) {
 
-    const doPromisify = function () {
+    const doPromisify = function (...args) {
 
         return new Promise((resolve, reject) => {
             const callback = (err, data) => {
@@ -13,14 +13,11 @@ const promisify = function (originalFunction) {
                 }
             };
 
-            const args = Array.from(arguments);
-            args.push(callback);
-
-            originalFunction.apply(null, args);
+            originalFunction(...args, callback);
         });
     };
 
-    return function () { return doPromisify.apply(null, arguments); };
+    return function (...args) { return doPromisify(...args); };
 };
 
 const pFsReadFile = promisify(fs.readFile);
